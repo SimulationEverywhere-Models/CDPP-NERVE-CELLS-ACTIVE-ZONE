@@ -1,0 +1,95 @@
+Information Regarding PNTModel Version 1.0
+
+Date: December 20, 2007
+
+Written by 	R. S. Bain
+		Carleton University
+		Ottawa, Canada
+
+Description
+
+The simulation represents the cascade of interactions that leads to
+docking and fusion of synaptic vesicles at a presynaptic nerve terminal.
+For background regarding the biochemistry, the references given in
+the supporting document represent a few of the better-known articles
+in the field. 
+
+The biological objective of the cascade is to transmit nerve impulses from
+one nerve cell (neuron) to another. In simplified form this is achieved by
+
+1.	Arrival of an impulse (action potential) at the nerve terminal.
+2.	Opening of calcium ion channels.
+3.	Activation of the protein calmodulin (CaM) by the calcium ions.
+4.	Activation of calcium-calmodulin dependent protein kinase II (CaMKII) by having an activated CaM bind to it.
+5.	Phosphorylation of synapsin which is a protein that binds vesicles in clusters. Phosphorylation is the
+	addition of a phosphate group. When phosphorylated, synapsins lose most of their affinity for vesicles.
+	This allows the vesicles to move to the active zone.
+6.	Docking of vesicles at the active zone.
+7.	Fusion of vesicles with the active zone which releases the chemical neurotransmitter within them. This
+	neurotransmitter is detected by neighboring neurons and action potentials are started in them.
+
+Key Features In Terms Of Cell-DEVS Modelling
+
+In terms of implementing models using Cell-DEVS with CD++ here is a list of features
+of the model. This does not imply that how the following were implemented is the best 
+way to do this.
+
+1.	Extensive use of macros.
+2.	Multiple layers.
+3.	Use of the time function to schedule events.
+4.	Particles in motion that collide and bounce off each other.
+5.	Interactions between particles where one affects the state of the other.
+6.	Interactions between particles where two join to become one complex.
+
+For background, the bouncing ball simulation is a good place to start to see
+how to create a particle in motion. The idea of the calcium spreading is similar
+to the 2-d heat diffusion model.
+
+What You See In the Simulation
+
+The initial setup contains fluid and particles within a nerve terminal. The colours
+represent different types of cells:
+
+Black		cell membrane
+Red		active zone
+Rose		calcium ion channels (two cell near active zone)
+Orange	calmodulin (CaM)
+Green		calcium-calmodulin activated protein kinase II (CaMKII)
+Cyan		synapsin 
+Violet	synaptic vesicles
+
+When the simulation starts, the CaM and CaMKII move about within the terminal. There is
+no interaction between any particles. After a short time the action potential arrives. This
+changes the cell membrane colour to yellow. This is for visual effect only. Nothing else
+changes until the calcium ion channels open.
+
+There is a time lag after the action potential arrives until the calcium ion channels open 
+(they change colour). In real cells this allows calcium ions to enter the cell, but here it just
+signifies that calcium ions are to be created in the cells adjacent to the channels. You
+will not see this in the animation: the calcium is created on layer 2 so the cells in the main
+layer have to check layer 2 to see if there is calcium there.
+
+There are two vesicles already docked at the active zone. They require calcium to fuse, so
+you will see one vesicle disappear quickly when the channels are opened.
+
+The calcium ions activate the CaM. Visually this means that the CaM turns dark orange. You
+will see the CaMs near the channels turn dark orange first.
+
+When an activated CaM bumps into a CaMKII it may combine with it to form a complex. If this
+does occur, the CaMKII will turn a darker green and the activated CaM will disappear.
+
+Now, if the activated CaMKII bumps into a synapsin it may phosphorylate it. This will result in
+the synapsin changing colour to dark blue and becoming mobile.
+
+When a vesicle is no longer next to any stationary synapsins, it too becomes mobile. It then goes 
+towards the active zone and docks.
+
+The movement of vesicles has priority over the other particles and the rules for its path are
+structured so as to encourage it to head to the active zone.
+
+Summary
+
+calcium changes CaM from light to dark orange
+CaM combines with CaMKII and changes it to dark green
+CaMKII phosphorylates synapsin and changes it from cyan to dark blue
+vesicles become mobile when not attached to any synapsins and drift toward active zone
